@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { dashboardApi } from "@/lib/api";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, DoorOpen, DoorClosed, TrendingUp } from "lucide-react";
@@ -18,25 +18,12 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      // Fetch students count
-      const { count: studentsCount } = await supabase
-        .from("students")
-        .select("*", { count: "exact", head: true });
-
-      // Fetch rooms data
-      const { data: rooms } = await supabase
-        .from("rooms")
-        .select("status");
-
-      const totalRooms = rooms?.length || 0;
-      const availableRooms = rooms?.filter((r) => r.status === "available").length || 0;
-      const occupiedRooms = totalRooms - availableRooms;
-
+      const data = await dashboardApi.getStats();
       setStats({
-        totalStudents: studentsCount || 0,
-        totalRooms,
-        availableRooms,
-        occupiedRooms,
+        totalStudents: data.totalStudents,
+        totalRooms: data.totalRooms,
+        availableRooms: data.availableRooms,
+        occupiedRooms: data.occupiedRooms,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);

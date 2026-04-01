@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { authApi, getToken } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Users, DoorOpen, LogOut, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,33 +13,28 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState<any>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check authentication
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate("/auth");
-      } else {
-        setUser(session.user);
-      }
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        navigate("/auth");
-      } else {
-        setUser(session.user);
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    // Check JWT — if missing, redirect to login
+    const token = getToken();
+    if (!token) {
+      navigate("/auth");
+      return;
+    }
+    // Decode email from JWT payload (base64 middle segment)
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      setUserEmail(payload.sub || null);
+    } catch {
+      // Invalid token
+      authApi.logout();
+      navigate("/auth");
+    }
   }, [navigate]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    authApi.logout();
     toast.success("Logged out successfully");
     navigate("/auth");
   };
@@ -92,10 +87,10 @@ const Layout = ({ children }: LayoutProps) => {
         </nav>
 
         <div className="p-4 border-t border-border">
-          {user && (
+          {userEmail && (
             <div className="mb-3 px-4 py-2 bg-muted rounded-lg">
               <p className="text-xs text-muted-foreground">Signed in as</p>
-              <p className="text-sm font-medium truncate">{user.email}</p>
+              <p className="text-sm font-medium truncate">{userEmail}</p>
             </div>
           )}
           <Button
