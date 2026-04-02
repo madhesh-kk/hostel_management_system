@@ -27,6 +27,10 @@ public class StudentService {
 
     @Transactional
     public Student addStudent(StudentRequest req) {
+        if (studentRepository.existsByEmail(req.getEmail())) {
+            throw new RuntimeException("This email ID already exists");
+        }
+
         // Validate room if provided
         if (req.getRoomNumber() != null && !req.getRoomNumber().isBlank()) {
             Room room = roomRepository.findByRoomNumber(req.getRoomNumber())
@@ -53,6 +57,12 @@ public class StudentService {
     public Student updateStudent(Long id, StudentRequest req) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        studentRepository.findByEmail(req.getEmail()).ifPresent(existing -> {
+            if (!existing.getId().equals(id)) {
+                throw new RuntimeException("This email ID already exists");
+            }
+        });
 
         String oldRoom = student.getRoomNumber();
         String newRoom = (req.getRoomNumber() != null && !req.getRoomNumber().isBlank())
