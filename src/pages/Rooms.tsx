@@ -298,13 +298,13 @@ const Rooms = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="edit_available">Available</Label>
+                        <Label htmlFor="edit_capacity">Capacity *</Label>
                         <Input
-                          id="edit_available"
+                          id="edit_capacity"
                           type="number"
-                          value={parseInt(editRoomData.capacity) - parseInt(editRoomData.occupied || 0)}
-                          readOnly
-                          className="bg-gray-100 cursor-not-allowed"
+                          value={editRoomData.capacity}
+                          onChange={(e) => setEditRoomData({ ...editRoomData, capacity: e.target.value })}
+                          required
                         />
                       </div>
                       <div className="space-y-2">
