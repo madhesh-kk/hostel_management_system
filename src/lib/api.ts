@@ -2,7 +2,7 @@
 // All calls to Spring Boot backend go through here.
 // Base URL: http://localhost:8080
 
-const BASE_URL = "http://localhost:8081/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8081/api";
 
 // ── JWT Token helpers ────────────────────────────────────────────────────────
 export const getToken = (): string | null => localStorage.getItem("jwt_token");

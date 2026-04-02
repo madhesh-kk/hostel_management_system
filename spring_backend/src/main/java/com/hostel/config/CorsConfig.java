@@ -15,17 +15,7 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList(
-            "http://localhost:8080",
-            "http://localhost:5173",
-            "http://localhost:5174",
-            "http://localhost:8081",
-            "http://localhost:8084",
-            "http://localhost:8083",
-            "http://localhost:8082",
-            "http://localhost:3000",
-            "http://localhost:4173"
-        ));
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
