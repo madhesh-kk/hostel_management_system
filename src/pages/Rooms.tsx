@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 
 const Rooms = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -108,6 +108,18 @@ const Rooms = () => {
       fetchRooms();
     } catch (error: any) {
       toast.error("Error updating room: " + error.message);
+    }
+  };
+
+  const handleDeleteClick = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this room?")) {
+      try {
+        await roomsApi.delete(id);
+        toast.success("Room deleted successfully!");
+        fetchRooms();
+      } catch (error: any) {
+        toast.error("Error deleting room: " + error.message);
+      }
     }
   };
 
@@ -230,7 +242,7 @@ const Rooms = () => {
                   <TableHead>Occupied</TableHead>
                   <TableHead>Available</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Edit</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -253,9 +265,12 @@ const Rooms = () => {
                           {(room.capacity - room.occupied) === 0 ? "occupied" : "available"}
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right space-x-2">
                         <Button size="sm" variant="outline" onClick={() => handleEditClick(room)}>
                           Edit
+                        </Button>
+                        <Button size="icon" variant="destructive" className="h-8 w-8" onClick={() => handleDeleteClick(room.id)}>
+                          <Trash2 className="w-4 h-4" />
                         </Button>
                       </TableCell>
                     </TableRow>
