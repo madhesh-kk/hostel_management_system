@@ -1,13 +1,14 @@
 package com.hostel.service;
 
-import com.hostel.dto.RoomRequest;
-import com.hostel.model.Room;
-import com.hostel.repository.RoomRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.hostel.dto.RoomRequest;
+import com.hostel.model.Room;
+import com.hostel.repository.RoomRepository;
 
 @Service
 public class RoomService {
