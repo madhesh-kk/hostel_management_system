@@ -1,73 +1,129 @@
-# Welcome to your Lovable project
+# Hostel Management System
 
-## Project info
+A full-stack hostel management application built with a React frontend and a Spring Boot backend for managing hostel operations efficiently.
 
-**URL**: https://lovable.dev/projects/3c5feed6-0d36-4c03-bf7d-0afb062d1947
+## Overview
 
-## How can I edit this code?
+This project helps manage:
 
-There are several ways of editing your application.
+- Student records
+- Room allocation and room availability
+- Hostel dashboard summaries
+- Admin authentication and secure access
+- Backend APIs for hostel data management
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3c5feed6-0d36-4c03-bf7d-0afb062d1947) and start prompting.
+### Frontend
+- React
+- Vite
+- TypeScript
+- Tailwind CSS
 
-Changes made via Lovable will be committed automatically to this repo.
+### Backend
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- MySQL
+- JWT
 
-**Use your preferred IDE**
+## Project Structure
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```text
+.
+├── src/                  # React frontend source
+├── public/               # Static frontend assets
+├── spring_backend/       # Spring Boot backend project
+│   ├── src/main/java/    # Java backend source
+│   ├── src/main/resources/  # Application config and properties
+│   ├── pom.xml           # Maven configuration
+│   └── target/           # Build output
+├── package.json          # Frontend dependencies and scripts
+├── vite.config.ts        # Vite config
+├── tailwind.config.ts    # Tailwind config
+├── README.md             # Project documentation
+└── vercel.json           # Deployment config
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Features
 
-Follow these steps:
+- Secure login and authentication flow
+- Dashboard for key hostel statistics
+- Student management
+- Room management and status tracking
+- Data persistence with MySQL
+- REST API integration between frontend and backend
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Prerequisites
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Before running this project, make sure you have:
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Node.js 18+
+- npm or yarn
+- Java 17+
+- Maven
+- MySQL database
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Frontend Setup
+
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app should start on the default Vite development server, usually on:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```text
+http://localhost:5173
+```
 
-**Use GitHub Codespaces**
+## Backend Setup
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+From the backend folder:
 
-## What technologies are used for this project?
+```bash
+cd spring_backend
+mvn clean install
+mvn spring-boot:run
+```
 
-This project is built with:
+Make sure your MySQL database is running and the credentials in the backend configuration match your local environment.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Environment Configuration
 
-## How can I deploy this project?
+The backend configuration is in:
 
-Simply open [Lovable](https://lovable.dev/projects/3c5feed6-0d36-4c03-bf7d-0afb062d1947) and click on Share -> Publish.
+```text
+spring_backend/src/main/resources/application.properties
+```
 
-## Can I connect a custom domain to my Lovable project?
+You can update the MySQL and JWT settings there if needed.
 
-Yes, you can!
+Example configuration values include:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Database URL
+- Username and password
+- Server port
+- JWT secret
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Run App Together
+
+1. Start MySQL
+2. Run the Spring Boot backend
+3. Start the frontend with Vite
+4. Open the frontend in the browser
+
+## Notes
+
+This project is customized for hostel operations and can be extended for:
+
+- rent tracking
+- visitor logs
+- attendance management
+- billing and invoices
+- notifications and alerts
+
+## License
+
+This project is for local development and educational use unless a separate license is provided by the project owner.
